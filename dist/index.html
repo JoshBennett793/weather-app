@@ -9,8 +9,10 @@
 <script defer src="runtime.bundle.js"></script><script defer src="index.bundle.js"></script><script defer src="weather.bundle.js"></script></head>
 <body>
 	<header>
-		<input type="text" name="location" id="location">
-		<object data="" type=""></object>
+		<div id="search-bar-container">
+			<div id="search-icon"></div>
+			<input type="text" name="location" id="location" placeholder="Search Location...">
+		</div>
 		<span id="error"></span>
 		<span id="date"></span>
 		<span id="time"></span>

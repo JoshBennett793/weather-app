@@ -5,6 +5,7 @@ import {
   extractPrecipitation,
   extractWindSpeed,
 } from './weather-data';
+import '../src/css/header.css';
 
 async function writeLocalDateTime(location, unit) {
   const dateSpan = document.getElementById('date');
@@ -21,13 +22,9 @@ async function writeLocalDateTime(location, unit) {
 async function writeCurrentTemps(location, unit) {
   const currentTemps = await extractCurrentTemps(location, unit);
   const currentTemp = document.getElementById('current-temp');
-  const highTemp = document.getElementById('high-temp');
-  const lowTemp = document.getElementById('low-temp');
   const feelsLike = document.getElementById('feels-like');
 
   currentTemp.textContent = `Currently: ${currentTemps.temp}°`;
-  highTemp.textContent = `H: ${currentTemps.temp_max}°`;
-  lowTemp.textContent = `L: ${currentTemps.temp_min}°`;
   feelsLike.textContent = `Feels Like: ${currentTemps.feels_like}°`;
 }
 

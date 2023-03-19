@@ -52,11 +52,9 @@ async function processForecastWeatherJSON(location, unit) {
 export async function extractCurrentTemps(location, unit) {
   try {
     const weatherData = await processCurrentWeatherJSON(location, unit);
-    const { temp, temp_min, temp_max, feels_like } = weatherData.main;
+    const { temp, feels_like } = weatherData.main;
     return {
       temp,
-      temp_min,
-      temp_max,
       feels_like,
     };
   } catch (err) {
@@ -105,9 +103,9 @@ export async function extractLocationDateAndTime(location, unit) {
     const date = new Date(locationData.dt * 1000);
     const formattedDate = intlFormat(date, {
       weekday: 'long',
-      year: '2-digit',
       month: 'short',
       day: 'numeric',
+      year: 'numeric',
     });
     const formattedTime = intlFormat(date, {
       hour: 'numeric',

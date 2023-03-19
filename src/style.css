@@ -1,0 +1,25 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	height: 100vh;
+	display: grid;
+	grid-template: minmax(150px, 1fr) minmax(300px, 3fr) minmax(200px, 1fr) / 1fr 2fr 1fr;
+	grid-template-areas: 
+	". header ."
+	"main main main"
+	"cards cards cards"
+}
+
+main {
+	grid-area: main;
+	border: 1px solid green;
+
+}
+
+#bottom-cards-container {
+	grid-area: cards;
+	border: 1px solid blue;
+}
