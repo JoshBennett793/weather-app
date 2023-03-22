@@ -1,23 +1,13 @@
 import {
-  extractLocationDateAndTime,
   extractCurrentTemps,
   extractHumidity,
   extractPrecipitation,
   extractWindSpeed,
-} from './weather-data';
-import '../src/css/header.css';
-
-async function writeLocalDateTime(location, unit) {
-  const dateSpan = document.getElementById('date');
-  const timeSpan = document.getElementById('time');
-
-  const dateTimeData = await extractLocationDateAndTime(location, unit);
-  const date = dateTimeData.formattedDate;
-  const time = dateTimeData.formattedTime;
-
-  dateSpan.textContent = date;
-  timeSpan.textContent = time;
-}
+} from './components/api/weather-data';
+import {
+  getLocationFromUserInput,
+  writeLocalDateTime,
+} from './components/header/header';
 
 async function writeCurrentTemps(location, unit) {
   const currentTemps = await extractCurrentTemps(location, unit);
@@ -52,8 +42,18 @@ async function writeWindSpeed(location, unit) {
       : `Wind Speed: ${currentWindSpeed} KM/H`;
 }
 
-writeCurrentTemps('Detroit Lakes', 'imperial');
-writeHumidity('Detroit Lakes', 'imperial');
-writePrecipitation('Detroit Lakes', 'imperial');
-writeWindSpeed('Detroit Lakes', 'imperial');
-writeLocalDateTime('Detroit Lakes', 'imperial');
+const renderWeatherData = () => {
+  const location = getLocationFromUserInput();
+
+  writeLocalDateTime(location || 'Minneapolis', 'imperial');
+  writeCurrentTemps(location || 'Minneapolis', 'imperial');
+  writeHumidity(location || 'Minneapolis', 'imperial');
+  writePrecipitation(location || 'Minneapolis', 'imperial');
+  writeWindSpeed(location || 'Minneapolis', 'imperial');
+};
+
+renderWeatherData();
+
+const searchIcon = document.getElementById('search-icon');
+
+searchIcon.addEventListener('click', renderWeatherData);

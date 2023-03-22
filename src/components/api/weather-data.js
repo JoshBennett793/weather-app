@@ -25,7 +25,10 @@ async function fetchForecastWeather(location, unit) {
 
 async function processCurrentWeatherJSON(location, unit) {
   try {
-    const response = await fetchCurrentWeather(location, unit);
+    const response = await fetchCurrentWeather(
+      location || 'Minneapolis',
+      unit || 'imperial'
+    );
     const weatherData = await response.json();
     return weatherData;
   } catch (err) {
@@ -101,6 +104,7 @@ export async function extractLocationDateAndTime(location, unit) {
   try {
     const locationData = await processCurrentWeatherJSON(location, unit);
     const date = new Date(locationData.dt * 1000);
+    // Pulls client's date and time that data was pulled from API
     const formattedDate = intlFormat(date, {
       weekday: 'long',
       month: 'short',
@@ -118,4 +122,9 @@ export async function extractLocationDateAndTime(location, unit) {
       err
     );
   }
+}
+
+export async function getLocationNameFromJSON(location) {
+  const locationData = await processCurrentWeatherJSON(location);
+  return locationData.name;
 }

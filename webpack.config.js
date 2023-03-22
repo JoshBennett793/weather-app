@@ -5,7 +5,8 @@ module.exports = {
   mode: 'development',
   entry: {
     index: './src/index.js',
-    weather: './src/weather-data.js',
+    weather: './src/components/api/weather-data.js',
+    header: './src/components/header/header.js',
   },
   devtool: 'inline-source-map',
   devServer: {
