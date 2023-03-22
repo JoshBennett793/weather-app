@@ -10,36 +10,52 @@ import {
 } from './components/header/header';
 
 async function writeCurrentTemps(location, unit) {
-  const currentTemps = await extractCurrentTemps(location, unit);
-  const currentTemp = document.getElementById('current-temp');
-  const feelsLike = document.getElementById('feels-like');
+  try {
+    const currentTemps = await extractCurrentTemps(location, unit);
+    const currentTemp = document.getElementById('current-temp');
+    const feelsLike = document.getElementById('feels-like');
 
-  currentTemp.textContent = `Currently: ${currentTemps.temp}°`;
-  feelsLike.textContent = `Feels Like: ${currentTemps.feels_like}°`;
+    currentTemp.textContent = `Currently: ${currentTemps.temp}°`;
+    feelsLike.textContent = `Feels Like: ${currentTemps.feels_like}°`;
+  } catch (err) {
+    console.error('There was an error writing temps to the DOM: ', err);
+  }
 }
 
 async function writeHumidity(location, unit) {
-  const currentHumidity = await extractHumidity(location, unit);
-  const humiditySpan = document.getElementById('humidity');
+  try {
+    const currentHumidity = await extractHumidity(location, unit);
+    const humiditySpan = document.getElementById('humidity');
 
-  humiditySpan.textContent = `Humidity: ${currentHumidity}%`;
+    humiditySpan.textContent = `Humidity: ${currentHumidity}%`;
+  } catch (err) {
+    console.error('There was an error writing humidity to the DOM: ', err);
+  }
 }
 
 async function writePrecipitation(location, unit) {
-  const currentPrecipitation = await extractPrecipitation(location, unit);
-  const precipitationSpan = document.getElementById('precipitation');
+  try {
+    const currentPrecipitation = await extractPrecipitation(location, unit);
+    const precipitationSpan = document.getElementById('precipitation');
 
-  precipitationSpan.textContent = `Precipitation: ${currentPrecipitation}%`;
+    precipitationSpan.textContent = `Precipitation: ${currentPrecipitation}%`;
+  } catch (err) {
+    console.error('There was an error writing precipitation to the DOM: ', err);
+  }
 }
 
 async function writeWindSpeed(location, unit) {
-  const currentWindSpeed = await extractWindSpeed(location, unit);
-  const windSpeedSpan = document.getElementById('wind-speed');
+  try {
+    const currentWindSpeed = await extractWindSpeed(location, unit);
+    const windSpeedSpan = document.getElementById('wind-speed');
 
-  windSpeedSpan.textContent =
-    unit === 'imperial'
-      ? `Wind Speed: ${currentWindSpeed} MPH`
-      : `Wind Speed: ${currentWindSpeed} KM/H`;
+    windSpeedSpan.textContent =
+      unit === 'imperial'
+        ? `Wind Speed: ${currentWindSpeed} MPH`
+        : `Wind Speed: ${currentWindSpeed} KM/H`;
+  } catch (err) {
+    console.error('There was an error writing windspeed to the DOM: ', err);
+  }
 }
 
 const renderWeatherData = () => {
