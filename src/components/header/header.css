@@ -23,6 +23,8 @@ input[type="text"] {
 	padding: 0 0 2px 10px;
 	
 	font-size: .9rem;
+
+	background: transparent;
 }
 
 #search-icon {

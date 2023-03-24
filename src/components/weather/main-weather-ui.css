@@ -1,0 +1,90 @@
+main {
+  grid-area: main;
+
+  display: grid;
+  grid-template: 1fr 3fr 1fr / 1fr 2fr 1fr;
+
+  padding: 20px;
+}
+
+#top-level-data {
+  grid-area: 1 / 1 / 2 / 4;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+#center-data {
+  grid-area: 2 / 2 / 3 / 3;
+
+  display: flex;
+  justify-content: center;
+}
+
+#circle-1 {
+  padding: 10px;
+  height: 300px;
+  width: 300px;
+  background-color: #00000060;
+
+  -webkit-box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.45);
+  -moz-box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.45);
+  box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.45);
+}
+
+#circle-1,
+#circle-2 {
+  border-radius: 50%;
+}
+
+#circle-2 {
+  background-color: #00000005;
+  height: clamp(70%, 300px, 100%);
+
+  -webkit-box-shadow: inset 0px 0px 45px 0px rgba(0, 0, 0, 0.45);
+  -moz-box-shadow: inset 0px 0px 45px 0px rgba(0, 0, 0, 0.45);
+  box-shadow: inset 0px 0px 45px 0px rgba(0, 0, 0, 0.45);
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#circle-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+	line-height: 80px;
+}
+
+#weather-status {
+	font-size: 1.5rem;
+}
+
+#current-temp {
+	font-size: 3rem;
+}
+
+#bottom-level-data {
+  grid-area: 3 / 1 / 4 / 4;
+
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+#feels-like-icon,
+#humidity-icon,
+#precipitation-icon,
+#wind-icon {
+	float: left;
+	margin-right: 20px;
+}
+
+#feels-like,
+#humidity,
+#precipitation,
+#wind-speed {
+	font-size: 1.3rem;
+}
+
