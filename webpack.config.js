@@ -7,6 +7,7 @@ module.exports = {
     index: './src/index.js',
     weather: './src/components/api/weather-data.js',
     header: './src/components/header/header.js',
+    menu: './src/components/menu/menu.js',
   },
   devtool: 'inline-source-map',
   devServer: {

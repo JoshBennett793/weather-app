@@ -11,12 +11,15 @@
 	color: white;
 }
 
-body {
+#content {
 	background: url(../assets/backgrounds/river.png) no-repeat;
 	background-size: 100% 100%;
+	position: absolute;
+	z-index: 0;
 	height: 100vh;
+	width: 100%;
 	display: grid;
-	grid-template: minmax(150px, 1fr) minmax(300px, 3fr) minmax(200px, 1fr) / 1fr 2fr 1fr;
+	grid-template: minmax(100px, .5fr) minmax(300px, 3fr) minmax(200px, 1fr) / 1fr 2fr 1fr;
 	grid-template-areas: 
 	". header ."
 	"main main main"
@@ -25,4 +28,4 @@ body {
 
 #bottom-cards-container {
 	grid-area: cards;
-}
+} 
