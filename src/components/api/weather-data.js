@@ -1,5 +1,3 @@
-import intlFormat from 'date-fns/intlFormat';
-
 async function fetchCurrentWeather(location, unit) {
   const weatherAPIurl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&&units=${unit}&APPID=3535c8d31233d98b7f80c26b5b76e3a6`;
   try {
@@ -95,30 +93,6 @@ export async function extractPrecipitation(location, unit) {
   } catch (err) {
     console.error(
       'There was an error retrieving forecasted precipitation: ',
-      err
-    );
-  }
-}
-
-export async function extractLocationDateAndTime(location, unit) {
-  try {
-    const locationData = await processCurrentWeatherJSON(location, unit);
-    const date = new Date(locationData.dt * 1000);
-    // Pulls client's date and time that data was pulled from API
-    const formattedDate = intlFormat(date, {
-      weekday: 'long',
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-    });
-    const formattedTime = intlFormat(date, {
-      hour: 'numeric',
-      minute: 'numeric',
-    });
-    return { formattedDate, formattedTime };
-  } catch (err) {
-    console.error(
-      'There was an error retrieving location date and time: ',
       err
     );
   }
