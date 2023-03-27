@@ -4,20 +4,26 @@
 }
 
 * {
-	margin: 0;
-	padding: 0;
-
 	font-family: 'Comfortaa', Verdana, Geneva, Tahoma, sans-serif;
 	color: white;
+}
+
+html {
+	margin: 0;
+	padding: 0;
+	
+	background: rgb(26, 150, 185);
+	
+	overflow: hidden;
 }
 
 #content {
 	background: url(../assets/backgrounds/river.png) no-repeat;
 	background-size: 100% 100%;
 	position: absolute;
-	z-index: 0;
 	height: 100vh;
 	width: 100%;
+	transition: transform .5s ease-in-out;
 	display: grid;
 	grid-template: minmax(100px, .5fr) minmax(300px, 3fr) minmax(200px, 1fr) / 1fr 2fr 1fr;
 	grid-template-areas: 
@@ -26,6 +32,13 @@
 	"cards cards cards"
 }
 
+
+#content.menu-open {
+	border-radius: 25px;
+	transform: translateX(40%) scale(0.9);
+}
+
 #bottom-cards-container {
 	grid-area: cards;
 } 
+
