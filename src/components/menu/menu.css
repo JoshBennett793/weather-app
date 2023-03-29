@@ -1,46 +1,57 @@
 :root {
-	--blue-light-bg: rgb(26, 150, 185);
-	--blue-dark-bg: rgb(19, 115, 141);
+  --blue-light-bg: #1a96b9;
+  --blue-dark-bg: #13738d;
+  --red-light-bg: #c25050;
+  --red-dark-bg: #9c3e3e;
 }
 
 #menu {
-	transition: transform .5s ease-in-out;
-	transform: translateX(-100%);
-	
-	position: absolute;
-	
-	height: 100vh;
-	width: 250px;
-	padding: 60px 30px;
-	
-	display: flex;
-	flex-direction: column;
-	
-	gap: 3rem;
+  transition: transform 0.5s ease-in-out;
+
+  position: absolute;
+
+  height: 100vh;
+  width: 100%;
+  padding: 60px 30px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3rem;
 }
 
 #menu::before {
-	content: '';
-	position: absolute;
-	bottom: -20vh;
-	height: 100vh;
-	width: 100vh;
-	border-radius: 50%;
-	transform: scale(1.5, .75);
+  content: '';
+  position: absolute;
+  bottom: -20vh;
+  height: 100vh;
+  width: 100vh;
+  border-radius: 50%;
+  transform: scale(1.5, 0.75);
 }
 
 #menu.river {
-	background: var(--blue-light-bg);
+  background: var(--blue-light-bg);
 }
 
 #menu.river::before {
-	background: var(--blue-dark-bg);
+  background: var(--blue-dark-bg);
 }
 
-#menu.menu-open {
-	transform: translateX(0%);
+#menu.city {
+  background: var(--red-light-bg);
+}
+
+#menu.city::before {
+  background: var(--red-dark-bg);
 }
 
 .menu-item {
-	cursor: pointer;
+	width: fit-content;
+  cursor: pointer;
+	transition: transform 0.2s ease-in-out;
+}
+
+.menu-item:hover {
+	transform: scale(1.1);
 }
