@@ -8,6 +8,7 @@ module.exports = {
     weather: './src/components/api/weather-data.js',
     header: './src/components/header/header.js',
     menu: './src/components/menu/menu.js',
+    search_query: './src/components/search-query.js',
   },
   devtool: 'inline-source-map',
   devServer: {

@@ -14,24 +14,8 @@ html {
 	overflow: hidden;
 }
 
-#content {
-	background-image: url(../assets/backgrounds/river.png);
-	background-size: 100% 100%;
-	position: absolute;
-	height: 100vh;
+#container {
 	width: 100%;
-	display: grid;
-	grid-template: minmax(100px, .5fr) minmax(300px, 3fr) minmax(200px, 1fr) / 1fr 2fr 1fr;
-	grid-template-areas: 
-	". header ."
-	"main main main"
-	"cards cards cards";
-	transition: transform .5s ease-in-out;
-}
-
-#content.menu-open {
-	border-radius: 25px;
-	transform: translateX(40%) scale(0.9);
 }
 
 #bottom-cards-container {

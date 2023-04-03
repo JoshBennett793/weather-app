@@ -5,9 +5,8 @@
   --red-dark-bg: #9c3e3e;
 }
 
+/* General Styles */
 #menu {
-  transition: transform 0.5s ease-in-out;
-
   position: absolute;
 
   height: 100vh;
@@ -20,38 +19,143 @@
   gap: 3rem;
 }
 
-#menu::before {
-  content: '';
-  position: absolute;
-  bottom: -20vh;
-  height: 100vh;
-  width: 100vh;
-  border-radius: 50%;
-  transform: scale(1.5, 0.75);
+.menu-item {
+  width: fit-content;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
 }
 
+.menu-item:hover {
+  transform: translateX(5%) scale(1.1);
+}
+
+/* Content Slide Animation */
+#content.menu-open {
+  border-radius: 25px;
+  transform: translateX(50%) scale(0.9);
+}
+
+/* Wave General Styles and Variations */
+#wave {
+  position: absolute;
+  bottom: 49%;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+#wave svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 150px;
+}
+
+#menu-divider {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 50%;
+  width: 100%;
+}
+
+#wave.river .shape-fill {
+  fill: var(--blue-dark-bg);
+}
+
+#menu-divider.river {
+  background: var(--blue-dark-bg);
+}
+
+#menu-divider.city {
+  background: var(--red-dark-bg);
+}
+
+#wave.city .shape-fill {
+  fill: var(--red-dark-bg);
+}
+
+/* Menu Color Variations */
 #menu.river {
   background: var(--blue-light-bg);
-}
-
-#menu.river::before {
-  background: var(--blue-dark-bg);
 }
 
 #menu.city {
   background: var(--red-light-bg);
 }
 
-#menu.city::before {
-  background: var(--red-dark-bg);
+/* Form Styles */
+form {
+  position: absolute;
+  width: 25ch;
 }
 
-.menu-item {
-	width: fit-content;
+input {
+  position: absolute;
+  visibility: hidden;
+  color: black;
+
+  border: none;
+  border-radius: 5px;
+  height: 1.5rem;
+  width: 25ch;
+  padding: 5px 10px;
+}
+
+input:focus {
+  outline: thin dotted;
+}
+
+input.invalid {
+  border: 1px solid #900;
+  background-color: #fdd;
+}
+
+.error {
+  width: 100%;
+  padding: 0;
+
+  position: absolute;
+  bottom: 0;
+
+  font-size: 70%;
+  background-color: #900;
+  border-radius: 5px;
+
+  box-sizing: border-box;
+}
+
+.error.active {
+  padding: 0.3em;
+}
+
+button {
+  width: 24px;
+  height: 24px;
+  visibility: hidden;
+  position: absolute;
+  top: 5px;
+  right: 25px;
+  background: transparent;
+  border: none;
   cursor: pointer;
-	transition: transform 0.2s ease-in-out;
 }
 
-.menu-item:hover {
-	transform: scale(1.1);
+/* For desktop */
+
+/* Small Viewport */
+@media screen and (min-width: 768px) {
+  #content.menu-open {
+    border-radius: 25px;
+    transform: translateX(20%) scale(0.9);
+  }
+}
+
+/* Widescreen */
+@media screen and (min-width: 1440px) {
+  #content.menu-open {
+    border-radius: 25px;
+    transform: translateX(8%) scale(0.9);
+  }
 }

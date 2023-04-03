@@ -1,104 +1,88 @@
-async function fetchCurrentWeather(location, unit) {
-  const weatherAPIurl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&&units=${unit}&APPID=3535c8d31233d98b7f80c26b5b76e3a6`;
+import { validateSearchQuery } from '../search-query';
+
+const weatherAPIkey = '3535c8d31233d98b7f80c26b5b76e3a6';
+
+export async function fetchWeatherData(
+  location,
+  unit = 'imperial',
+  endpoint = 'weather'
+) {
+  const weatherAPIurl = `https://api.openweathermap.org/data/2.5/${endpoint}?q=${location}&&units=${unit}&APPID=${weatherAPIkey}`;
+  const searchQueryIsValid = validateSearchQuery(location);
+  if (!searchQueryIsValid) {
+    return new Error('Invalid search query');
+  }
   try {
     const response = await fetch(weatherAPIurl, { mode: 'cors' });
-    return response;
-  } catch (err) {
-    console.error('There was an error fetching the current weather API: ', err);
-  }
-}
-
-async function fetchForecastWeather(location, unit) {
-  const weatherAPIurl = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&&units=${unit}&APPID=3535c8d31233d98b7f80c26b5b76e3a6`;
-  try {
-    const response = await fetch(weatherAPIurl, { mode: 'cors' });
-    return response;
-  } catch (err) {
-    console.error(
-      'There was an error fetching the forecast weather API: ',
-      err
-    );
-  }
-}
-
-async function processCurrentWeatherJSON(location, unit) {
-  try {
-    const response = await fetchCurrentWeather(
-      location || 'Minneapolis',
-      unit || 'imperial'
-    );
+    if (!response.ok) {
+      if (response.status === 404) {
+        return new Error('Location not found');
+      }
+      return new Error(`API call failed with status ${response.status}`);
+    }
     const weatherData = await response.json();
     return weatherData;
   } catch (err) {
     console.error(
-      'There was an error processing the fetched current weather API into JSON: ',
+      `Error fetching the ${endpoint} API for location ${location}: `,
       err
     );
+    return err;
   }
 }
 
-async function processForecastWeatherJSON(location, unit) {
+export async function extractWeatherData(location, unit, property) {
+  let weatherData;
+  let endpoint;
+  let precipitation;
+  switch (property) {
+    case 'status':
+    case 'currentTemp':
+    case 'feelsLike':
+    case 'humidity':
+    case 'windSpeed':
+      endpoint = 'weather';
+      break;
+    case 'precipitation':
+      endpoint = 'forecast';
+      break;
+    default:
+      return new Error(`Unsupported property "${property}"`);
+  }
   try {
-    const response = await fetchForecastWeather(location, unit);
-    const weatherData = await response.json();
-    return weatherData;
+    weatherData = await fetchWeatherData(location, unit, endpoint);
   } catch (err) {
     console.error(
-      'There was an error processing the fetched current weather API into JSON: ',
+      `Error fetching ${endpoint} API for location "${location}": `,
       err
     );
+    return err;
   }
-}
-
-export async function extractCurrentTemps(location, unit) {
-  try {
-    const weatherData = await processCurrentWeatherJSON(location, unit);
-    const { temp, feels_like } = weatherData.main;
-    return {
-      temp,
-      feels_like,
-    };
-  } catch (err) {
-    console.error('There was an error retrieving current temp: ', err);
-  }
-}
-
-export async function extractHumidity(location, unit) {
-  try {
-    const weatherData = await processCurrentWeatherJSON(location, unit);
-    const { humidity } = weatherData.main;
-    return humidity;
-  } catch (err) {
-    console.error('There was an error retrieving current humidity: ', err);
-  }
-}
-
-export async function extractWindSpeed(location, unit) {
-  try {
-    const weatherData = await processCurrentWeatherJSON(location, unit);
-    const { speed } = weatherData.wind;
-    return speed;
-  } catch (err) {
-    console.error('There was an error retrieving current wind speed', err);
-  }
-}
-
-export async function extractPrecipitation(location, unit) {
-  try {
-    const forecastData = await processForecastWeatherJSON(location, unit);
-    const precipitation = forecastData.list[0].pop;
-    const parsedPrecipitation = parseFloat(precipitation).toFixed(1);
-    const formattedPrecipitation = parsedPrecipitation * 100;
-    return formattedPrecipitation;
-  } catch (err) {
-    console.error(
-      'There was an error retrieving forecasted precipitation: ',
-      err
-    );
+  switch (property) {
+    case 'status':
+      return weatherData.weather[0].main;
+    case 'currentTemp':
+      return weatherData.main.temp;
+    case 'feelsLike':
+      return weatherData.main.feels_like;
+    case 'humidity':
+      return weatherData.main.humidity;
+    case 'windSpeed':
+      return weatherData.wind.speed;
+    case 'precipitation':
+      precipitation = weatherData.list[0].pop;
+      if (precipitation !== undefined) {
+        const parsedPrecipitation = parseFloat(precipitation).toFixed(1);
+        const formattedPrecipitation = parsedPrecipitation * 100;
+        return formattedPrecipitation;
+      }
+      return new Error('Could not retrieve forecasted precipitation');
+    default:
+      return new Error(`Unsupported property "${property}"`);
   }
 }
 
 export async function getLocationNameFromJSON(location) {
-  const locationData = await processCurrentWeatherJSON(location);
+  const locationData = await fetchWeatherData(location, null, 'weather');
   return locationData.name;
 }

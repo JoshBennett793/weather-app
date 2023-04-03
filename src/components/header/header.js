@@ -1,17 +1,12 @@
 import './header.css';
-import {
-  getLocationNameFromJSON,
-} from '../api/weather-data';
 
-const searchBar = document.getElementById('location');
+export default async function writeLocation() {
+  const locationTitle = document.getElementById('header-location-title');
 
-export const getLocationFromUserInput = () => searchBar.value;
-
-export async function writeLocation(location, unit) {
-  const locationInput = document.getElementById('location');
-
+  const { getLocationFromUserInput } = await import('../search-query');
   const userInput = getLocationFromUserInput();
-  const locationName = await getLocationNameFromJSON(userInput);
-  locationInput.value = `${locationName ?? 'Minneapolis'}`;
-}
 
+  const { getLocationNameFromJSON } = await import('../api/weather-data');
+  const locationName = await getLocationNameFromJSON(userInput);
+  locationTitle.textContent = `${locationName ?? 'Minneapolis'}`;
+}
