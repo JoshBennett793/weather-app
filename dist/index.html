@@ -10,8 +10,13 @@
   <script defer src="runtime.bundle.js"></script><script defer src="index.bundle.js"></script><script defer src="weather.bundle.js"></script><script defer src="header.bundle.js"></script><script defer src="menu.bundle.js"></script><script defer src="search_query.bundle.js"></script></head>
   <body>
     <div id="container">
-      <div id="menu-container">
-        <div id="menu" class="river">
+      <div id="hamburger-icon" class="not-active">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+      </div>
+      <div id="menu-container" class="river">
+        <div id="menu">
           <span class="menu-item search">Search</span>
           <form>
             <label for="search">
@@ -49,7 +54,7 @@
         </div>
       </div>
       <div id="content-container">
-        <div id="content" class="menu-open">
+        <div id="content">
           <header>
             <span id="header-location-title">Detroit Lakes</span>
           </header>

@@ -6,17 +6,29 @@
 }
 
 /* General Styles */
-#menu {
+#menu-container {
   position: absolute;
 
   height: 100vh;
   width: 100%;
-  padding: 60px 30px;
+  /* padding: 60px 30px; */
+	/* margin: 120px 0 0 30px; */
 
-  display: flex;
-  flex-direction: column;
+	gap: 3em;
+}
 
-  gap: 3rem;
+#menu {
+	display: flex;
+	flex-direction: column;
+}
+
+.menu-item.search,
+form {
+	margin: 120px 0 0 30px;
+}
+
+.menu-item.background-selector {
+	margin: 40px 0 0 30px;
 }
 
 .menu-item {
@@ -30,6 +42,10 @@
 }
 
 /* Content Slide Animation */
+#content {
+  transition: transform 0.3s ease-in-out;
+}
+
 #content.menu-open {
   border-radius: 25px;
   transform: translateX(50%) scale(0.9);
@@ -77,11 +93,11 @@
 }
 
 /* Menu Color Variations */
-#menu.river {
+#menu-container.river {
   background: var(--blue-light-bg);
 }
 
-#menu.city {
+#menu-container.city {
   background: var(--red-light-bg);
 }
 
@@ -142,12 +158,68 @@ button {
   cursor: pointer;
 }
 
+/* Hamburger Menu Icon */
+
+#hamburger-icon {
+  position: fixed;
+  top: 30px;
+  left: 30px;
+  height: 30px;
+  width: 30px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  cursor: pointer;
+}
+
+#hamburger-icon div {
+  height: 3px;
+  width: 30px;
+  background: white;
+  border-radius: 25px;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Hamburger Icon Animation */
+
+#hamburger-icon.active div:nth-child(1) {
+  transform: translate(0, 10px) rotate(45deg);
+}
+
+#hamburger-icon.active div:nth-child(2) {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out, transform 0.3s ease-in-out;
+}
+
+#hamburger-icon.active div:nth-child(3) {
+  transform: translate(0, -10px) rotate(-45deg);
+}
+
+#hamburger-icon.not-active div:nth-child(1) {
+  transform: translate(0, 0) rotate(0);
+}
+
+#hamburger-icon.not-active div:nth-child(2) {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out, transform 0.3s ease-in-out;
+}
+
+#hamburger-icon.not-active div:nth-child(3) {
+  transform: translate(0, 0) rotate(0);
+}
+
+#hamburger-icon.active,
+#hamburger-icon.not-active {
+  animation-duration: 0.3s;
+  animation-timing-function: ease-in-out;
+}
+
 /* For desktop */
 
 /* Small Viewport */
 @media screen and (min-width: 768px) {
   #content.menu-open {
-    border-radius: 25px;
     transform: translateX(20%) scale(0.9);
   }
 }
@@ -155,7 +227,6 @@ button {
 /* Widescreen */
 @media screen and (min-width: 1440px) {
   #content.menu-open {
-    border-radius: 25px;
     transform: translateX(8%) scale(0.9);
   }
 }

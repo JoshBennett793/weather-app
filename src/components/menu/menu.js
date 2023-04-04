@@ -42,18 +42,22 @@ const formSubmissionHandler = async (event) => {
   }
   const weatherDataOrError = await fetchWeatherData(searchBar.value);
   if (weatherDataOrError instanceof Error) {
-		if (weatherDataOrError.message.includes('Location not found')) {
+    if (weatherDataOrError.message.includes('Location not found')) {
       searchError.textContent =
         'Location not found. Please enter a valid location. (Hint: Check for spelling errors.)';
     } else {
       searchError.textContent =
         'Please recheck the search format and try again. (i.e. "city", "city, 2 letter country code", or "zipcode, 2 letter country code")';
-			}
-			searchBar.className = 'invalid';
+    }
+    searchBar.className = 'invalid';
     searchError.className = 'error active';
   } else {
-		toggleSearchBarVisibility();
+    toggleSearchBarVisibility();
     renderWeatherData(weatherDataOrError);
+		// Timeout necessary to allow API data to render before form resets
+    setTimeout(() => {
+      form.reset();
+    }, 1000);
   }
 };
 
@@ -77,7 +81,7 @@ const getWebpFileNameFromBackground = () => {
 
 const toggleMenuBackgroundColor = () => {
   const [menu, wave, menuDivider] = document.querySelectorAll(
-    '#menu, #wave, #menu-divider'
+    '#menu-container, #wave, #menu-divider'
   );
   [menu, wave, menuDivider].forEach((el) => {
     el.className = getWebpFileNameFromBackground();
@@ -94,4 +98,12 @@ const changeBackground = () => {
 backgroundBtn.onclick = () => {
   changeBackground();
   toggleMenuBackgroundColor();
+};
+
+const hamburger = document.getElementById('hamburger-icon');
+
+hamburger.onclick = () => {
+  hamburger.classList.toggle('active');
+  hamburger.classList.toggle('not-active');
+  contentContainer.classList.toggle('menu-open');
 };

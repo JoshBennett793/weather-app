@@ -25,7 +25,6 @@ main {
     'main main main'
     'cards cards cards'
     / 1fr 2fr 1fr;
-  transition: transform 0.5s ease-in-out;
 }
 
 #top-level-data {
