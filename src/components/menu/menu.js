@@ -53,11 +53,8 @@ const formSubmissionHandler = async (event) => {
     searchError.className = 'error active';
   } else {
     toggleSearchBarVisibility();
-    renderWeatherData(weatherDataOrError);
-		// Timeout necessary to allow API data to render before form resets
-    setTimeout(() => {
-      form.reset();
-    }, 1000);
+    await renderWeatherData(weatherDataOrError);
+    form.reset();
   }
 };
 

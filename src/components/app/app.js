@@ -44,8 +44,8 @@ export default async function renderWeatherData() {
     'currentTemp',
     'feelsLike',
     'humidity',
-    'windSpeed',
     'precipitation',
+    'windSpeed',
   ];
   await writeWeatherData(location, 'imperial', properties);
 }

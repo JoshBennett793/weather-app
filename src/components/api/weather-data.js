@@ -62,19 +62,23 @@ export async function extractWeatherData(location, unit, property) {
     case 'status':
       return weatherData.weather[0].main;
     case 'currentTemp':
-      return weatherData.main.temp;
+      return Math.round(weatherData.main.temp);
     case 'feelsLike':
-      return weatherData.main.feels_like;
+      return Math.round(weatherData.main.feels_like);
     case 'humidity':
       return weatherData.main.humidity;
     case 'windSpeed':
-      return weatherData.wind.speed;
+      return Math.round(weatherData.wind.speed);
     case 'precipitation':
       precipitation = weatherData.list[0].pop;
+			console.log(precipitation);
       if (precipitation !== undefined) {
-        const parsedPrecipitation = parseFloat(precipitation).toFixed(1);
+        const parsedPrecipitation = parseFloat(precipitation).toFixed(2);
+        console.log(parsedPrecipitation);
         const formattedPrecipitation = parsedPrecipitation * 100;
-        return formattedPrecipitation;
+        console.log(weatherData);
+        console.log(formattedPrecipitation);
+        return Math.round(formattedPrecipitation);
       }
       return new Error('Could not retrieve forecasted precipitation');
     default:
