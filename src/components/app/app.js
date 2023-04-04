@@ -1,15 +1,31 @@
-import { extractWeatherData } from '../api/weather-data';
+import { getLocationFromUserInput } from '../search-query';
 
 import writeLocation from '../header/header';
 
-import { getLocationFromUserInput } from '../search-query';
+import { extractWeatherData } from '../api/weather-data';
 
 import '../weather/main-weather-ui.css';
 
-async function writeWeatherData(location, unit, properties) {
+export default async function renderWeatherData() {
+  let unit;
+
+  const location = getLocationFromUserInput() ?? 'Minneapolis';
+  writeLocation();
+
+  const properties = [
+    'status',
+    'currentTemp',
+    'feelsLike',
+    'humidity',
+    'precipitation',
+    'windSpeed',
+  ];
+
   try {
     const weatherData = await Promise.all(
-      properties.map((property) => extractWeatherData(location, unit, property))
+      properties.map((property) =>
+        extractWeatherData(location, (unit = 'imperial'), property)
+      )
     );
 
     const statusEl = document.getElementById('weather-status');
@@ -32,20 +48,4 @@ async function writeWeatherData(location, unit, properties) {
   } catch (err) {
     console.error('There was an error writing weather data to the DOM: ', err);
   }
-}
-
-export default async function renderWeatherData() {
-  const location = getLocationFromUserInput() ?? 'Minneapolis';
-
-  writeLocation();
-
-  const properties = [
-    'status',
-    'currentTemp',
-    'feelsLike',
-    'humidity',
-    'precipitation',
-    'windSpeed',
-  ];
-  await writeWeatherData(location, 'imperial', properties);
 }

@@ -71,13 +71,9 @@ export async function extractWeatherData(location, unit, property) {
       return Math.round(weatherData.wind.speed);
     case 'precipitation':
       precipitation = weatherData.list[0].pop;
-			console.log(precipitation);
       if (precipitation !== undefined) {
         const parsedPrecipitation = parseFloat(precipitation).toFixed(2);
-        console.log(parsedPrecipitation);
         const formattedPrecipitation = parsedPrecipitation * 100;
-        console.log(weatherData);
-        console.log(formattedPrecipitation);
         return Math.round(formattedPrecipitation);
       }
       return new Error('Could not retrieve forecasted precipitation');
