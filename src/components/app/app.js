@@ -19,13 +19,14 @@ export default async function renderWeatherData() {
     'humidity',
     'precipitation',
     'windSpeed',
+		'daily',
   ];
 
   try {
     const weatherData = await Promise.all(
       properties.map((property) =>
-        extractWeatherData(location, (unit = 'imperial'), property)
-      )
+        extractWeatherData(location, (unit = 'imperial'), property),
+      ),
     );
 
     const statusEl = document.getElementById('weather-status');
@@ -35,7 +36,7 @@ export default async function renderWeatherData() {
     const precipitationEl = document.getElementById('precipitation-percentage');
     const windSpeedEl = document.getElementById('wind-speed-percentage');
 
-    const [status, currentTemp, feelsLike, humidity, precipitation, windSpeed] =
+    const [status, currentTemp, feelsLike, humidity, precipitation, windSpeed, daily] =
       weatherData;
 
     statusEl.textContent = status;

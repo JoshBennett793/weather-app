@@ -1,13 +1,56 @@
 import { validateSearchQuery } from '../search-query';
 
-const weatherAPIkey = '3535c8d31233d98b7f80c26b5b76e3a6';
+const getAPIkey = () => '3535c8d31233d98b7f80c26b5b76e3a6';
+
+async function getLocationCoords(location) {
+  const weatherAPIurl = `http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${getAPIkey()}`;
+  try {
+    const response = await fetch(weatherAPIurl, { mode: 'cors' });
+    if (!response.ok) {
+      if (response.state === 404) {
+        return new Error('Location not found');
+      }
+      return new Error(
+        `Geocode API call failed with status ${response.status}`,
+      );
+    }
+    const weatherData = await response.json();
+    const { lat } = weatherData[0];
+    const { lon } = weatherData[0];
+    return { lat, lon };
+  } catch (err) {
+    console.error(
+      `Error fetching the geocoding API for location ${location}`,
+      err,
+    );
+    return err;
+  }
+}
 
 export async function fetchWeatherData(
   location,
+  exclude,
   unit = 'imperial',
-  endpoint = 'weather'
+  endpoint = 'weather',
 ) {
-  const weatherAPIurl = `https://api.openweathermap.org/data/2.5/${endpoint}?q=${location}&&units=${unit}&APPID=${weatherAPIkey}`;
+  let weatherAPIurl;
+  /*
+	If the 'exclude' parameter is provided, use the One Call
+	API endpoint, which requires latitude and longitude
+	coordinates. Retrieve the coordinates using the location
+	parameter and plug them into the URL. For other endpoints, 
+	use the location parameter directly.
+	*/
+  if (exclude) {
+    const coords = await getLocationCoords(location);
+    weatherAPIurl = `https://api.openweathermap.org/data/3.0/onecall?lat=${
+      coords.lat
+    }&lon=${coords.lon}&exclude=${exclude}&appid=${getAPIkey()}`;
+  } else {
+    weatherAPIurl = `https://api.openweathermap.org/data/2.5/${endpoint}?q=${location}&&units=${unit}&appid=${getAPIkey()}`;
+  }
+  // The function validateSearchQuery validates a string against
+	// a regex pattern and checks that it is not empty.
   const searchQueryIsValid = validateSearchQuery(location);
   if (!searchQueryIsValid) {
     return new Error('Invalid search query');
@@ -25,7 +68,7 @@ export async function fetchWeatherData(
   } catch (err) {
     console.error(
       `Error fetching the ${endpoint} API for location ${location}: `,
-      err
+      err,
     );
     return err;
   }
@@ -34,6 +77,7 @@ export async function fetchWeatherData(
 export async function extractWeatherData(location, unit, property) {
   let weatherData;
   let endpoint;
+  let exclude;
   let precipitation;
   switch (property) {
     case 'status':
@@ -46,15 +90,19 @@ export async function extractWeatherData(location, unit, property) {
     case 'precipitation':
       endpoint = 'forecast';
       break;
+    case 'daily':
+      endpoint = 'onecall';
+      exclude = 'current,minutely,hourly,alerts';
+      break;
     default:
       return new Error(`Unsupported property "${property}"`);
   }
   try {
-    weatherData = await fetchWeatherData(location, unit, endpoint);
+    weatherData = await fetchWeatherData(location, exclude, unit, endpoint);
   } catch (err) {
     console.error(
       `Error fetching ${endpoint} API for location "${location}": `,
-      err
+      err,
     );
     return err;
   }
@@ -77,6 +125,8 @@ export async function extractWeatherData(location, unit, property) {
         return Math.round(formattedPrecipitation);
       }
       return new Error('Could not retrieve forecasted precipitation');
+    case 'daily':
+      return weatherData;
     default:
       return new Error(`Unsupported property "${property}"`);
   }
