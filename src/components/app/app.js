@@ -4,6 +4,8 @@ import writeLocation from '../header/header';
 
 import { extractWeatherData } from '../api/weather-data';
 
+import createCardElement from '../cards/cards';
+
 import '../weather/main-weather-ui.css';
 
 export default async function renderWeatherData() {
@@ -19,7 +21,7 @@ export default async function renderWeatherData() {
     'humidity',
     'precipitation',
     'windSpeed',
-		'daily',
+    'daily',
   ];
 
   try {
@@ -35,9 +37,18 @@ export default async function renderWeatherData() {
     const humidityEl = document.getElementById('humidity-percentage');
     const precipitationEl = document.getElementById('precipitation-percentage');
     const windSpeedEl = document.getElementById('wind-speed-percentage');
+    const cardsContainer = document.getElementById('bottom-cards-container');
+    cardsContainer.textContent = '';
 
-    const [status, currentTemp, feelsLike, humidity, precipitation, windSpeed, daily] =
-      weatherData;
+    const [
+      status,
+      currentTemp,
+      feelsLike,
+      humidity,
+      precipitation,
+      windSpeed,
+      daily,
+    ] = weatherData;
 
     statusEl.textContent = status;
     currentTempEl.textContent = `${currentTemp}°`;
@@ -46,6 +57,17 @@ export default async function renderWeatherData() {
     precipitationEl.textContent = `${precipitation}%`;
     windSpeedEl.textContent =
       unit === 'imperial' ? `${windSpeed} MPH` : `${windSpeed} KM/H`;
+    for (let i = 0; i < 7; i += 1) {
+      cardsContainer.appendChild(
+        createCardElement(
+          i,
+          daily[i].day,
+          daily[i].status,
+          daily[i].min,
+          daily[i].max,
+        ),
+      );
+    }
   } catch (err) {
     console.error('There was an error writing weather data to the DOM: ', err);
   }

@@ -45,12 +45,12 @@ export async function fetchWeatherData(
     const coords = await getLocationCoords(location);
     weatherAPIurl = `https://api.openweathermap.org/data/3.0/onecall?lat=${
       coords.lat
-    }&lon=${coords.lon}&exclude=${exclude}&appid=${getAPIkey()}`;
+    }&lon=${coords.lon}&&units=${unit}&exclude=${exclude}&appid=${getAPIkey()}`;
   } else {
     weatherAPIurl = `https://api.openweathermap.org/data/2.5/${endpoint}?q=${location}&&units=${unit}&appid=${getAPIkey()}`;
   }
   // The function validateSearchQuery validates a string against
-	// a regex pattern and checks that it is not empty.
+  // a regex pattern and checks that it is not empty.
   const searchQueryIsValid = validateSearchQuery(location);
   if (!searchQueryIsValid) {
     return new Error('Invalid search query');
@@ -125,8 +125,15 @@ export async function extractWeatherData(location, unit, property) {
         return Math.round(formattedPrecipitation);
       }
       return new Error('Could not retrieve forecasted precipitation');
-    case 'daily':
-      return weatherData;
+    case 'daily': {
+      const forecastData = weatherData.daily.slice(1, 8).map((day) => ({
+        day: new Date(day.dt * 1000).getDay(),
+        status: day.weather[0].main,
+        min: Math.round(day.temp.min),
+        max: Math.round(day.temp.max),
+      }));
+      return forecastData;
+    }
     default:
       return new Error(`Unsupported property "${property}"`);
   }

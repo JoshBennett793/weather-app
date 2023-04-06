@@ -9,6 +9,7 @@ module.exports = {
     header: './src/components/header/header.js',
     menu: './src/components/menu/menu.js',
     search_query: './src/components/search-query.js',
+    cards: './src/components/cards/cards.js',
   },
   devtool: 'inline-source-map',
   devServer: {
