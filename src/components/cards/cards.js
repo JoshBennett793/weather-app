@@ -33,7 +33,7 @@ function getDay(day) {
   }
 }
 
-export default function createCardElement(index, day, status, min, max) {
+export default function createCardElement(index, day, status, max, min) {
   const card = createDOMElement('div', {
     id: `card-${index}`,
     class: 'forecast-card',
@@ -44,8 +44,8 @@ export default function createCardElement(index, day, status, min, max) {
     getDay(day),
   );
   const weatherStatus = createDOMElement('span', { class: 'status' }, status);
-  const lowTemp = createDOMElement('span', { class: 'low-temp' }, min);
-  const highTemp = createDOMElement('span', { class: 'high-temp' }, max);
-  card.append(dayTitle, weatherStatus, lowTemp, highTemp);
+  const highTemp = createDOMElement('span', { class: 'high-temp' }, `High: ${max}°`);
+  const lowTemp = createDOMElement('span', { class: 'low-temp' }, `Low: ${min}°`);
+  card.append(dayTitle, weatherStatus, highTemp, lowTemp);
   return card;
 }

@@ -1,0 +1,38 @@
+#bottom-cards-container {
+	grid-area: cards;
+	display: flex;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	height: 80%;
+	width: 200vw;
+	padding: 20px;
+	gap: 20px;
+}
+
+.forecast-card {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+	width: 150px;
+	border-radius: 10px;
+	background: #00000074;
+	filter: drop-shadow(4px 4px 8px #3c3c3cd3);
+}
+
+.status {
+	font-size: 1.5em;
+}
+
+#cards-wrapper {
+	position: relative;
+	width: 100vw;
+	overflow-x: auto;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+#cards-wrapper::-webkit-scrollbar {
+	display: none;
+}

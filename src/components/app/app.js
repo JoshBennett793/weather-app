@@ -63,8 +63,8 @@ export default async function renderWeatherData() {
           i,
           daily[i].day,
           daily[i].status,
-          daily[i].min,
           daily[i].max,
+          daily[i].min,
         ),
       );
     }
