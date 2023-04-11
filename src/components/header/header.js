@@ -1,12 +1,9 @@
 import './header.css';
 
-export default async function writeLocation() {
+export default async function writeLocation(location) {
   const locationTitle = document.getElementById('header-location-title');
 
-  const { getLocationFromUserInput } = await import('../app/search-query');
-  const userInput = getLocationFromUserInput();
-
   const { getLocationNameFromJSON } = await import('../api/weather-data');
-  const locationName = await getLocationNameFromJSON(userInput);
+  const locationName = await getLocationNameFromJSON(location);
   locationTitle.textContent = `${locationName ?? 'Minneapolis'}`;
 }

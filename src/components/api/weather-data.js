@@ -76,7 +76,7 @@ use the location parameter directly.
 }
 
 export function createConversionState() {
-  let unit = 'imperial';
+  let unit;
 
   function setConversionState(newUnit) {
     unit = newUnit;
@@ -158,6 +158,6 @@ export async function extractWeatherData(location, unit, property) {
 }
 
 export async function getLocationNameFromJSON(location) {
-  const locationData = await fetchWeatherData(location, null, null, 'weather');
+  const locationData = await fetchWeatherData(location, null, 'weather');
   return locationData.name;
 }

@@ -1,4 +1,4 @@
-import { renderWeatherData, conversionState } from '../app/app';
+import { locationState, renderWeatherData } from '../app/app';
 
 import { validateSearchQuery } from '../app/search-query';
 
@@ -53,8 +53,9 @@ const formSubmissionHandler = async (event) => {
     searchError.className = 'error active';
   } else {
     toggleSearchBarVisibility();
-    const unit = conversionState.getConversionState();
-    await renderWeatherData(unit);
+		locationState.setLocation(searchBar.value);
+		console.log(locationState.getLocation());
+    await renderWeatherData();
     form.reset();
   }
 };

@@ -1,27 +1,24 @@
-import { getLocationFromUserInput } from './search-query';
+import { createLocationState, getLocationFromUserInput } from './search-query';
 
 import writeLocation from '../header/header';
 
-import {
-  extractWeatherData,
-  createConversionState,
-} from '../api/weather-data';
+import { extractWeatherData, createConversionState } from '../api/weather-data';
 
 import createCardElement from '../cards/cards';
 
 import '../weather/main-weather-ui.css';
 
 export const conversionState = createConversionState();
+export const locationState = createLocationState();
 
 window.onload = () => {
   conversionState.setConversionState('imperial');
+  locationState.setLocation('Minneapolis');
 };
 
 export async function renderWeatherData() {
   const unit = conversionState.getConversionState();
-  const location = getLocationFromUserInput() ?? 'Minneapolis';
-  writeLocation();
-
+  const location = locationState.getLocation();
   const properties = [
     'status',
     'currentTemp',
@@ -31,6 +28,8 @@ export async function renderWeatherData() {
     'windSpeed',
     'daily',
   ];
+
+  writeLocation(location);
 
   try {
     const weatherData = await Promise.all(
