@@ -56,6 +56,31 @@ main {
   font-size: 4rem;
 }
 
+#conversion-container {
+	width: 50%;
+	display: flex;
+	justify-content: space-around;
+}
+
+.conversion-btn {
+	cursor: pointer;
+	color: gray;
+}
+
+#fahrenheit {
+
+}
+
+.selected {
+	pointer-events: none;
+	transform: scale(1.75);
+	color: white;
+}
+
+#celsius {
+
+}
+
 #bottom-level-data {
   display: flex;
   justify-content: space-between;

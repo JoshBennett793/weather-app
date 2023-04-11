@@ -1,6 +1,6 @@
-import renderWeatherData from '../app/app';
+import { renderWeatherData, conversionState } from '../app/app';
 
-import { validateSearchQuery } from '../search-query';
+import { validateSearchQuery } from '../app/search-query';
 
 import { fetchWeatherData } from '../api/weather-data';
 
@@ -53,7 +53,8 @@ const formSubmissionHandler = async (event) => {
     searchError.className = 'error active';
   } else {
     toggleSearchBarVisibility();
-    await renderWeatherData(weatherDataOrError);
+    const unit = conversionState.getConversionState();
+    await renderWeatherData(unit);
     form.reset();
   }
 };
@@ -78,7 +79,7 @@ const getWebpFileNameFromBackground = () => {
 
 const toggleMenuBackgroundColor = () => {
   const [menu, wave, menuDivider] = document.querySelectorAll(
-    '#menu-container, #wave, #menu-divider'
+    '#menu-container, #wave, #menu-divider',
   );
   [menu, wave, menuDivider].forEach((el) => {
     el.className = getWebpFileNameFromBackground();

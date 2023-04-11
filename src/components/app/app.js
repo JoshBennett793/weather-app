@@ -1,16 +1,24 @@
-import { getLocationFromUserInput } from '../search-query';
+import { getLocationFromUserInput } from './search-query';
 
 import writeLocation from '../header/header';
 
-import { extractWeatherData } from '../api/weather-data';
+import {
+  extractWeatherData,
+  createConversionState,
+} from '../api/weather-data';
 
 import createCardElement from '../cards/cards';
 
 import '../weather/main-weather-ui.css';
 
-export default async function renderWeatherData() {
-  let unit;
+export const conversionState = createConversionState();
 
+window.onload = () => {
+  conversionState.setConversionState('imperial');
+};
+
+export async function renderWeatherData() {
+  const unit = conversionState.getConversionState();
   const location = getLocationFromUserInput() ?? 'Minneapolis';
   writeLocation();
 
@@ -27,7 +35,7 @@ export default async function renderWeatherData() {
   try {
     const weatherData = await Promise.all(
       properties.map((property) =>
-        extractWeatherData(location, (unit = 'imperial'), property),
+        extractWeatherData(location, unit, property),
       ),
     );
 
@@ -72,3 +80,18 @@ export default async function renderWeatherData() {
     console.error('There was an error writing weather data to the DOM: ', err);
   }
 }
+
+const conversionBtns = document.querySelectorAll('.conversion-btn');
+const [fahrenheitBtn, celsiusBtn] = conversionBtns;
+
+fahrenheitBtn.onclick = () => {
+  conversionBtns.forEach((btn) => btn.classList.toggle('selected'));
+  conversionState.setConversionState('imperial');
+  renderWeatherData();
+};
+
+celsiusBtn.onclick = () => {
+  conversionBtns.forEach((btn) => btn.classList.toggle('selected'));
+  conversionState.setConversionState('metric');
+  renderWeatherData();
+};

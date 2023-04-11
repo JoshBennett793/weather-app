@@ -10,6 +10,10 @@
 	color: white;
 }
 
+html {
+	overflow: hidden;
+}
+
 #container {
 	width: 100%;
 }
