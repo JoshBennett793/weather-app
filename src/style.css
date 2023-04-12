@@ -1,21 +1,21 @@
 @font-face {
-	font-family: 'Comfortaa';
-	src: url(../assets/fonts/Comfortaa-Regular.ttf);
+  font-family: 'Comfortaa';
+  src: url(../assets/fonts/Comfortaa-Regular.ttf);
 }
 
 * {
-	margin: 0;
-	padding: 0;
-	font-family: 'Comfortaa', Verdana, Geneva, Tahoma, sans-serif;
-	color: white;
+  margin: 0;
+  padding: 0;
+  font-family: 'Comfortaa', Verdana, Geneva, Tahoma, sans-serif;
+  color: white;
 }
 
 html {
-	overflow: hidden;
+	overflow: auto;
 }
 
 #container {
-	width: 100%;
+  width: 100%;
 }
 
 #content {
@@ -30,6 +30,51 @@ html {
   grid-template:
     'header header header'
     'main main main'
-		'cards cards cards';
-	grid-template-rows: repeat(2, auto) 250px;
+    'cards cards cards';
+  grid-template-rows: repeat(2, auto) 250px;
+}
+
+/* For desktop */
+
+/* Small Viewport */
+@media screen and (min-width: 768px) {
+  main {
+    grid-template: '. main . . . data data';
+  }
+
+  #center-data {
+    grid-area: main;
+  }
+
+  #top-level-data,
+  #bottom-level-data {
+    grid-area: data;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: space-around;
+  }
+
+  #top-level-data {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  #bottom-level-data {
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  #precipitation {
+    padding-top: 50px;
+  }
+
+  #wind-speed {
+    padding-bottom: 50px;
+  }
+
+  #bottom-cards-container,
+  #cards-wrapper {
+    width: 100vw;
+    justify-content: center;
+  }
 }

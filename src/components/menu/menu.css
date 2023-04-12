@@ -217,13 +217,13 @@ button {
 /* Small Viewport */
 @media screen and (min-width: 768px) {
   #content.menu-open {
-    transform: translateX(20%) scale(0.9);
+    transform: translateX(30%) scale(0.9);
   }
 }
 
 /* Widescreen */
 @media screen and (min-width: 1440px) {
   #content.menu-open {
-    transform: translateX(8%) scale(0.9);
+    transform: translateX(15%) scale(0.9);
   }
 }
