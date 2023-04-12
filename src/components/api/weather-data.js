@@ -5,7 +5,7 @@ function getAPIkey() {
 }
 
 async function getLocationCoords(location) {
-  const weatherAPIurl = `http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${getAPIkey()}`;
+  const weatherAPIurl = `https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${getAPIkey()}`;
   try {
     const response = await fetch(weatherAPIurl, { mode: 'cors' });
     if (!response.ok) {
